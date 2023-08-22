@@ -2,14 +2,30 @@ import React from 'react'
 import ReactDOM from 'react-dom/client'
 import { createBrowserRouter,RouterProvider } from 'react-router-dom'
 import './index.css'
-
-
-
+import Root,{loader as rootLoader,action as rootAction} from './routes/root'
+import ErrorPage from './error-pages'
+import Contact,{loader as contactLoader} from './routes/contact'
+import EditContact from './routes/edit'
 const router = createBrowserRouter([
   {
     path: "/",
-    element: <div>Hello world!</div>,
-  },
+    element: <Root />,
+    errorElement: <ErrorPage />,
+    loader: rootLoader,
+    action: rootAction,
+  children :[
+    {
+      path :"contacts/:contactId",
+      element: <Contact />,
+      loader: contactLoader,
+    },
+    {
+      path :"contacts/:contactId/edit",
+      element: <EditContact />,
+      loader: contactLoader,
+    },
+  ],
+},
 ]);
 
 ReactDOM.createRoot(document.getElementById('root')).render(
